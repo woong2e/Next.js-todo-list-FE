@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, getDoc, doc, setDoc, Timestamp } from "firebase/firestore";
+import { getFirestore, collection, getDocs, getDoc, doc, 
+  setDoc, Timestamp, deleteDoc, updateDoc
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,7 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-//모든 할일 가져오기
+//모든 할일 조회
 export async function fetchTodos() {
   const querySnapshot = await getDocs(collection(db, "todos"));
   
@@ -43,8 +45,8 @@ export async function fetchTodos() {
   return fetchedTodos;
 }
 
-//할일 추가하기
-export async function addATodos({ title }) {
+//할일 추가
+export async function addATodo({ title }) {
     // Add a new document with a generated id
   const newTodoRef = doc(collection(db, "todos"));
 
@@ -54,7 +56,7 @@ export async function addATodos({ title }) {
     id: newTodoRef.id,
     title: title,
     is_done: false,
-    created_at: createdAtTimestamp
+    created_at: createdAtTimestamp.toDate()
   }
   // later...
   await setDoc(newTodoRef, newTodoData);
@@ -62,6 +64,68 @@ export async function addATodos({ title }) {
   return newTodoData;
 }
 
+//단일 할일 조회
+export async function fetchATodo(id) {
+  if (id === null) {
+    return null;
+  }
+  const todoDocRef = doc(db, "todos", id);
+  const todoDocSnap = await getDoc(todoDocRef);
+  
+  if (todoDocSnap.exists()) {
+    console.log("Document data:", todoDocSnap.data());
+
+    const fetchedTodo = {
+      id: todoDocSnap.id,
+      title: todoDocSnap.data()["title"],
+      is_done: todoDocSnap.data()["is_done"],
+      created_at: todoDocSnap.data()["created_at"].toDate(),
+    }
+
+    return fetchedTodo;
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+    return null;
+  }
+}
+
+//단일 할일 삭제
+export async function deleteATodo(id) {
+  const fetchedTodo = await fetchATodo(id);
+
+  if (fetchedTodo === null) {
+    return null;
+  }
+
+  await deleteDoc(doc(db, "todos", id));
+  return fetchedTodo;
+}
+
+//단일 할일 수정
+export async function editATodo(id, { title, is_done }) {
+  const fetchedTodo = await fetchATodo(id);
+
+  if (fetchedTodo === null) {
+    return null;
+  }
+
+  const todoRef = doc(db, "todos", id);
+
+  // Set the "capital" field of the city 'DC'
+  await updateDoc(todoRef, {
+    title,
+    is_done,
+  });
+
+  return {
+    id,
+    title,
+    is_done,
+    created_at: fetchedTodo.created_at
+  };
+}
 
 
-module.exports = { fetchTodos, addATodos};
+
+module.exports = { fetchTodos, addATodo, fetchATodo, deleteATodo, editATodo };

@@ -8,5 +8,5 @@ export async function GET(request: NextRequest) {
         time: '2024년 2월 27일 15시 26분',
     };
    
-    return NextResponse.json(response, { status: 201 })
+    return NextResponse.json(response, { status: 200 })
   }

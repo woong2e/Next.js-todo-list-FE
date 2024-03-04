@@ -23,7 +23,15 @@ export const siteConfig = {
     {
       label: "About",
       href: "/about",
-    }
+    },
+	{
+		label: "Counter",
+		href: "/counter",
+	},
+	{
+		label: "Todos",
+		href: "/todos",
+	  },  
 	],
 	navMenuItems: [
 		{
