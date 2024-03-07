@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from ".";
 
 export interface INewTodoInputState {
     newTodoInput: string;
-};
+}
 
 export const initialState: INewTodoInputState = {
     newTodoInput: "",

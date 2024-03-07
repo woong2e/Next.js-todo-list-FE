@@ -12,7 +12,6 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
 
   const dispatch = useAppDispatch();
   const inputted = useAppSelector((state) => state.isTyping);
-  // console.log(inputted.typing);
 
   const TodoRaw = (aTodo: Todo) => {
       return (
@@ -33,7 +32,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
        : DisableTodoButton()
       
     );
-  }
+  };
 
   const DisableTodoButton = () => {
     return (
@@ -51,7 +50,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
             </PopoverContent>
           </Popover>
     );
-  }
+  };
 
   return (
     <>
