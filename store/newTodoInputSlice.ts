@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from ".";
 
 export interface INewTodoInputState {
     newTodoInput: string;
@@ -15,7 +16,7 @@ export const newTodoInputSlice = createSlice({
     reducers: {
         setNewTodoInput: (state, action: PayloadAction<string>) => {
             state.newTodoInput = action.payload;
-            return state;
+            // return state;
         },
     },
 }); 
