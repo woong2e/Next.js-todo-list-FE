@@ -10,7 +10,7 @@ export const initialState: ITodoAddEnableState = {
 };
 
 export const addEnableSlice = createSlice({
-    name: "typing",
+    name: 'typing',
     initialState,
     reducers: {
         setTyping: (state, action: PayloadAction<boolean>) => {

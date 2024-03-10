@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { addEnableSlice } from './addEnableSlice'
-import { newTodoInputSlice } from './newTodoInputSlice'
+import addEnableReducer  from './addEnableSlice'
+import ewTodoInputReducer from './newTodoInputSlice'
 
 export const store = configureStore({
   reducer: {
-    isTyping: addEnableSlice.reducer, 
-    newTodoInput: newTodoInputSlice.reducer,
+    isTyping: addEnableReducer,
+    newTodoInput: ewTodoInputReducer,
   }, 
   
 },)

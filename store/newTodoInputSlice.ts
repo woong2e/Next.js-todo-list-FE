@@ -15,7 +15,6 @@ export const newTodoInputSlice = createSlice({
     reducers: {
         setNewTodoInput: (state, action: PayloadAction<string>) => {
             state.newTodoInput = action.payload;
-            // return state;
         },
     },
 }); 

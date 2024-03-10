@@ -10,6 +10,7 @@ async function fetchTodosApiCall() {
 
 export default async function TodosPage() {
 	const response = await fetchTodosApiCall();
+	console.log(response.data);
 	return (	
 		<div className="flex flex-col space-y-8">
 			<h1 className={title()}>Todos</h1>

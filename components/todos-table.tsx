@@ -7,11 +7,25 @@ import { Todo } from "@/types";
 import { setNewTodoInput } from "@/store/newTodoInputSlice";
 import { setTyping } from "@/store/addEnableSlice";
 import { useAppSelector, useAppDispatch } from "@/hooks";
+import { useRouter } from "next/navigation";
 
 export const TodosTable = ( { todos }: { todos: Todo[] }) => {
 
-  const dispatch = useAppDispatch();
-  const inputted = useAppSelector((state) => state.isTyping);
+  const dispatch = useAppDispatch();    
+  const isInputted = useAppSelector((state) => state.isTyping);
+  const inputedTitle = useAppSelector((state) => state.newTodoInput);
+  const router = useRouter();
+
+  const addTodoHandler = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todos`, {
+      method: "post",
+      body: JSON.stringify({ 
+        title: inputedTitle.newTodoInput 
+      }),
+      cache: "no-store",
+    }); 
+    router.refresh();
+  }
 
   const TodoRaw = (aTodo: Todo) => {
       return (
@@ -25,8 +39,12 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   
   const AddButton = () => {
     return (
-      inputted.typing ? 
-        <Button className="h-14" color="warning">
+      isInputted.typing ? 
+        <Button className="h-14" color="warning"
+        onPress={async () => {
+          await addTodoHandler();
+        }}>
+        
                 추가  
       </Button>
        : DisableTodoButton()
@@ -58,6 +76,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
         <Input type="text" label="새로운 할일" placeholder="뭐 할건데" 
           onValueChange={(changedInput) => {
             dispatch(setTyping(changedInput.length > 0));
+            dispatch(setNewTodoInput(changedInput)); 
           }}/>
           {AddButton()}
       </div>
