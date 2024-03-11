@@ -19,7 +19,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   const inputedTitle = useAppSelector((state) => state.newTodoInput);
   const isLoading = useAppSelector((state) => state.isLoading);
   const router = useRouter();
-  const notify = () => toast("Wow so easy!");
+  const notifyTodoAddEvent = (msg: string) => toast.success(msg);
 
   const addTodoHandler = async () => {
     dispatch(setIsLoading(true));
@@ -35,7 +35,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
     dispatch(setIsTyping(false));
     router.refresh();
     dispatch(setIsLoading(false)); 
-    notify();
+    notifyTodoAddEvent("할일이 성공적으로 추가되었습니다!");
   }
 
   const DisableTodoButton = () => {
@@ -85,7 +85,18 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
 
   return (
     <div className="flex flex-col space-y-2">
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
         <Input type="text" label="새로운 할일" placeholder="뭐 할건데" 
           onValueChange={(changedInput) => {
