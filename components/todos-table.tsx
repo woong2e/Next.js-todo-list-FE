@@ -2,10 +2,11 @@
 
 import React from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
-   Input, Button, Popover, PopoverTrigger, PopoverContent, } from "@nextui-org/react";
+   Input, Button, Popover, PopoverTrigger, PopoverContent, Spinner } from "@nextui-org/react";
 import { Todo } from "@/types";
 import { setNewTodoInput } from "@/store/newTodoInputSlice";
-import { setTyping } from "@/store/addEnableSlice";
+import { setIsTyping } from "@/store/addEnableSlice";
+import { setIsLoading } from "@/store/loadingSlice";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { useRouter } from "next/navigation";
 
@@ -14,9 +15,12 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   const dispatch = useAppDispatch();    
   const isInputted = useAppSelector((state) => state.isTyping);
   const inputedTitle = useAppSelector((state) => state.newTodoInput);
+  const isLoading = useAppSelector((state) => state.isLoading);
   const router = useRouter();
 
   const addTodoHandler = async () => {
+    dispatch(setIsLoading(true));
+    await new Promise((f) => setTimeout(f, 800));
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todos`, {
       method: "post",
       body: JSON.stringify({ 
@@ -24,7 +28,10 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
       }),
       cache: "no-store",
     }); 
+    dispatch(setNewTodoInput('')); 
+    dispatch(setIsTyping(false));
     router.refresh();
+    dispatch(setIsLoading(false));
   }
 
   const TodoRaw = (aTodo: Todo) => {
@@ -39,10 +46,10 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   
   const AddButton = () => {
     return (
-      isInputted.typing ? 
+      isInputted.isTyping ? 
         <Button className="h-14" color="warning"
         onPress={async () => {
-          await addTodoHandler();
+          await addTodoHandler()
         }}>
         
                 추가  
@@ -71,14 +78,18 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col space-y-2">
       <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
         <Input type="text" label="새로운 할일" placeholder="뭐 할건데" 
           onValueChange={(changedInput) => {
-            dispatch(setTyping(changedInput.length > 0));
+            dispatch(setIsTyping(changedInput.length > 0));
             dispatch(setNewTodoInput(changedInput)); 
-          }}/>
+          }}
+          value={inputedTitle.newTodoInput}/>
           {AddButton()}
+      </div>
+      <div className="h-6">
+      {isLoading.isLoaging && <Spinner size="sm" color="warning" />}
       </div>
       <Table aria-label="Example static collection table">
         <TableHeader>
@@ -93,6 +104,6 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
           ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }

@@ -3,7 +3,8 @@ import { TodosTable } from "@/components/todos-table";
 import { fetchTodos } from "@/data/firestore";
 
 async function fetchTodosApiCall() {
-	const response = await fetch(`${process.env.BASE_URL}/api/todos`);
+	const response = await fetch(`${process.env.BASE_URL}/api/todos`,
+	 { cache: 'no-store' });
 
 	return response.json();
 }

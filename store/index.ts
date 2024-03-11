@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import addEnableReducer  from './addEnableSlice'
-import ewTodoInputReducer from './newTodoInputSlice'
+import newTodoInputReducer from './newTodoInputSlice'
+import loadingReducer from './loadingSlice'
 
 export const store = configureStore({
   reducer: {
     isTyping: addEnableReducer,
-    newTodoInput: ewTodoInputReducer,
+    newTodoInput: newTodoInputReducer,
+    isLoading: loadingReducer,
   }, 
   
 },)

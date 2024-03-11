@@ -1,24 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-export interface ITodoAddEnableState {
-    typing: boolean;
+export interface TodoAddEnableState {
+    isTyping: boolean;
 };
 
-export const initialState: ITodoAddEnableState = {
-    typing: false,
+export const initialState: TodoAddEnableState = {
+    isTyping: false,
 };
 
 export const addEnableSlice = createSlice({
-    name: 'typing',
+    name: 'isTyping',
     initialState,
     reducers: {
-        setTyping: (state, action: PayloadAction<boolean>) => {
+        setIsTyping: (state, action: PayloadAction<boolean>) => {
             console.log(action.payload);
-            state.typing = action.payload ? true : false;
+            state.isTyping = action.payload ? true : false;
         },
     },
 }); 
 
-export const { setTyping } = addEnableSlice.actions; 
+export const { setIsTyping } = addEnableSlice.actions; 
 export default addEnableSlice.reducer;
