@@ -9,6 +9,8 @@ import { setIsTyping } from "@/store/addEnableSlice";
 import { setIsLoading } from "@/store/loadingSlice";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const TodosTable = ( { todos }: { todos: Todo[] }) => {
 
@@ -17,6 +19,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   const inputedTitle = useAppSelector((state) => state.newTodoInput);
   const isLoading = useAppSelector((state) => state.isLoading);
   const router = useRouter();
+  const notify = () => toast("Wow so easy!");
 
   const addTodoHandler = async () => {
     dispatch(setIsLoading(true));
@@ -31,33 +34,9 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
     dispatch(setNewTodoInput('')); 
     dispatch(setIsTyping(false));
     router.refresh();
-    dispatch(setIsLoading(false));
+    dispatch(setIsLoading(false)); 
+    notify();
   }
-
-  const TodoRaw = (aTodo: Todo) => {
-      return (
-      <TableRow key={ aTodo.id }>
-        <TableCell>{ aTodo.id.slice(0,4) }</TableCell>
-        <TableCell>{ aTodo.title }</TableCell>
-        <TableCell>{ aTodo.is_done ? "⭕" : "❌" }</TableCell>
-        <TableCell>{ `${ aTodo.created_at }` }</TableCell>
-      </TableRow>
-      )};
-  
-  const AddButton = () => {
-    return (
-      isInputted.isTyping ? 
-        <Button className="h-14" color="warning"
-        onPress={async () => {
-          await addTodoHandler()
-        }}>
-        
-                추가  
-      </Button>
-       : DisableTodoButton()
-      
-    );
-  };
 
   const DisableTodoButton = () => {
     return (
@@ -77,8 +56,36 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
     );
   };
 
+  const AddButton = () => {
+    return (
+      isInputted.isTyping ? 
+      <div>
+        <Button className="h-14" color="warning"
+        onPress={async () => {
+          await addTodoHandler()
+        }}>
+        
+                추가  
+      </Button>
+      </div>
+       : DisableTodoButton()
+      
+    );
+  };
+
+  const TodoRaw = (aTodo: Todo) => {
+    return (
+    <TableRow key={ aTodo.id }>
+      <TableCell>{ aTodo.id.slice(0,4) }</TableCell>
+      <TableCell>{ aTodo.title }</TableCell>
+      <TableCell>{ aTodo.is_done ? "⭕" : "❌" }</TableCell>
+      <TableCell>{ `${ aTodo.created_at }` }</TableCell>
+    </TableRow>
+    )};
+
   return (
     <div className="flex flex-col space-y-2">
+      <ToastContainer />
       <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
         <Input type="text" label="새로운 할일" placeholder="뭐 할건데" 
           onValueChange={(changedInput) => {
