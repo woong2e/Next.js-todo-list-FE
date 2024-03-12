@@ -14,7 +14,6 @@ export const addEnableSlice = createSlice({
     initialState,
     reducers: {
         setIsTyping: (state, action: PayloadAction<boolean>) => {
-            console.log(action.payload);
             state.isTyping = action.payload ? true : false;
         },
     },

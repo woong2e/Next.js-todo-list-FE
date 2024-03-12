@@ -2,8 +2,10 @@
 
 import React from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
-   Input, Button, Popover, PopoverTrigger, PopoverContent, Spinner } from "@nextui-org/react";
-import { Todo } from "@/types";
+   Input, Button, Popover, PopoverTrigger, PopoverContent, Spinner, Dropdown,
+   DropdownTrigger,  DropdownMenu, DropdownItem, Modal, ModalContent, ModalHeader,
+    ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
+import { CustomModalType, Todo } from "@/types";
 import { setNewTodoInput } from "@/store/newTodoInputSlice";
 import { setIsTyping } from "@/store/addEnableSlice";
 import { setIsLoading } from "@/store/loadingSlice";
@@ -11,6 +13,9 @@ import { useAppSelector, useAppDispatch } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { VerticalDotsIcon } from "./icons";
+import { setModalState } from "@/store/modalSlice";
+import CustomModal from "./custom-modal";
 
 export const TodosTable = ( { todos }: { todos: Todo[] }) => {
 
@@ -18,6 +23,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
   const isInputted = useAppSelector((state) => state.isTyping);
   const inputedTitle = useAppSelector((state) => state.newTodoInput);
   const isLoading = useAppSelector((state) => state.isLoading);
+  const modalState = useAppSelector((state) => state.modalState);
   const router = useRouter();
   const notifyTodoAddEvent = (msg: string) => toast.success(msg);
 
@@ -27,7 +33,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todos`, {
       method: "post",
       body: JSON.stringify({ 
-        title: inputedTitle.newTodoInput 
+        title: inputedTitle.todoInput 
       }),
       cache: "no-store",
     }); 
@@ -35,7 +41,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
     dispatch(setIsTyping(false));
     router.refresh();
     dispatch(setIsLoading(false)); 
-    notifyTodoAddEvent("할일이 성공적으로 추가되었습니다!");
+    notifyTodoAddEvent("할일 추가!");
   }
 
   const DisableTodoButton = () => {
@@ -80,11 +86,49 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
       <TableCell>{ aTodo.title }</TableCell>
       <TableCell>{ aTodo.is_done ? "⭕" : "❌" }</TableCell>
       <TableCell>{ `${ aTodo.created_at }` }</TableCell>
+      <TableCell>
+        <div className="relative flex justify-end items-center gap-2">
+          <Dropdown>
+            <DropdownTrigger>
+              <Button isIconOnly size="sm" variant="light">
+                <VerticalDotsIcon className="text-default-300" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu onAction={ (key) => {
+              dispatch(setModalState({focusedTodo: aTodo,
+                 madalType: key as CustomModalType,
+                }));
+              onOpen();
+            }}>
+              <DropdownItem key="detail">상세보기</DropdownItem>
+              <DropdownItem key="edit">수정</DropdownItem>
+              <DropdownItem key="delete">삭제</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </TableCell>
     </TableRow>
     )};
 
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  
+  const ModalComponent = () => {
+    return(
+      <>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop="blur">
+        <ModalContent>
+          {(onClose) => (
+            (modalState.focusedTodo && <CustomModal onClose={onClose}/>)
+          )}
+        </ModalContent>
+      </Modal>
+    </>
+    );
+  }
+
   return (
     <div className="flex flex-col space-y-2">
+      <ModalComponent />
       <ToastContainer
         position="top-right"
         autoClose={1500}
@@ -98,14 +142,14 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
         theme="dark"
       />
       <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-        <Input type="text" label="새로운 할일" placeholder="뭐 할건데" 
+        <Input type="text" label="새로운 할일" placeholder="무엇을 할 예정인가요" 
           onValueChange={(changedInput) => {
             dispatch(setIsTyping(changedInput.length > 0));
             dispatch(setNewTodoInput(changedInput)); 
           }}
-          value={inputedTitle.newTodoInput}/>
+          value={inputedTitle.todoInput}/>
           {AddButton()}
-      </div>
+      </div>  
       <div className="h-6">
       {isLoading.isLoaging && <Spinner size="sm" color="warning" />}
       </div>
@@ -115,6 +159,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
           <TableColumn>할 일</TableColumn>
           <TableColumn>완료여부</TableColumn>
           <TableColumn>등록일</TableColumn>
+          <TableColumn>액션</TableColumn>
         </TableHeader>
         <TableBody emptyContent={"일정이 없습니다."}>
           {todos && todos.map((aTodo: Todo) => (

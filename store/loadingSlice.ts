@@ -14,7 +14,6 @@ export const loadingSlice = createSlice({
     initialState,
     reducers: {
         setIsLoading: (state, action: PayloadAction<boolean>) => {
-            console.log(action.payload);
             state.isLoaging = action.payload ? true : false;
         },
     },

@@ -12,6 +12,8 @@ export type Todo = {
   created_at: Date;
 };
 
+export type CustomModalType = 'detail' | 'edit' | 'delete';
+
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
