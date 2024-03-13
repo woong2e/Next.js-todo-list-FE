@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import dummyTodos from '@/data/dummy.json';
 import { fetchTodos, addATodo } from '@/data/firestore';
 
 /// 모든 할일 가져오기

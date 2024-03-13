@@ -3,8 +3,7 @@
 import React from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
    Input, Button, Popover, PopoverTrigger, PopoverContent, Spinner, Dropdown,
-   DropdownTrigger,  DropdownMenu, DropdownItem, Modal, ModalContent, ModalHeader,
-    ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
+   DropdownTrigger,  DropdownMenu, DropdownItem, Modal, ModalContent, useDisclosure} from "@nextui-org/react";
 import { CustomModalType, Todo } from "@/types";
 import { setTodoInput } from "@/store/todoInputSlice";
 import { setIsTyping } from "@/store/buttonClickEnableSlice";

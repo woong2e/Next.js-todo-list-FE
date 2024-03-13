@@ -4,10 +4,10 @@ export const siteConfig = {
 	name: "Next.js + NextUI",
 	description: "Make beautiful websites regardless of your design experience.",
 	navItems: [
-	{
-		label: "Home",
-		href: "/",
-	},
+	// {
+	// 	label: "Home",
+	// 	href: "/",
+	// },
 	{
 		label: "Todos",
 		href: "/todos",
@@ -53,9 +53,8 @@ export const siteConfig = {
 	],
 	links: {
 		github: "https://github.com/woong2e",
-		twitter: "https://twitter.com/getnextui",
 		velog: "https://velog.io/@woong2e/posts",
-		discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev"
+		chat_gpt: "https://chat.openai.com/",
+    	sponsor: "https://www.youtube.com/@dev_jeongdaeri"
 	},
 };

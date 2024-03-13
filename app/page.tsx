@@ -11,13 +11,13 @@ export default function Home() {
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 			<div className="inline-block max-w-lg text-center justify-center">
 				<h1 className={title()}>안녕</h1>
-				<h1 className={title({ color: "violet" })}>하세요&nbsp;</h1>
+				<h1 className={title({ color: "violet" })}>하세요</h1>
 				<br />
 				<h1 className={title()}>
 					TodoList
 				</h1>
 				<h2 className={subtitle({ class: "mt-4" })}>
-					zzzzz
+					만들어 보았습니다.
 				</h2>
 			</div>
 

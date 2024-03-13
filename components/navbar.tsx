@@ -20,12 +20,11 @@ import clsx from "clsx";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import {
-	TwitterIcon,
 	GithubIcon,
-	DiscordIcon,
 	HeartFilledIcon,
 	SearchIcon,
 } from "@/components/icons";
+import { SiVelog, SiOpenai } from "react-icons/si";
 
 import { Logo } from "@/components/icons";
 
@@ -43,7 +42,7 @@ export const Navbar = () => {
 				</Kbd>
 			}
 			labelPlacement="outside"
-			placeholder="Search..."
+			placeholder="Google Search..."
 			startContent={
 				<SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
 			}
@@ -83,28 +82,28 @@ export const Navbar = () => {
 				justify="end"
 			>
 				<NavbarItem className="hidden sm:flex gap-2">
-					<Link isExternal href={siteConfig.links.twitter} aria-label="Twitter">
-						<TwitterIcon className="text-default-500" />
-					</Link>
-					<Link isExternal href={siteConfig.links.discord} aria-label="Discord">
-						<DiscordIcon className="text-default-500" />
-					</Link>
 					<Link isExternal href={siteConfig.links.github} aria-label="Github">
 						<GithubIcon className="text-default-500" />
+					</Link>
+					<Link isExternal href={siteConfig.links.velog} aria-label="Velog">
+						<SiVelog  className="text-default-500" />
+					</Link>
+					<Link isExternal href={siteConfig.links.chat_gpt} aria-label="chat-gpt">
+						<SiOpenai className="text-default-500" />
 					</Link>
 					<ThemeSwitch />
 				</NavbarItem>
 				<NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
 				<NavbarItem className="hidden md:flex">
 					<Button
-            isExternal
+            			isExternal
 						as={Link}
 						className="text-sm font-normal text-default-600 bg-default-100"
 						href={siteConfig.links.sponsor}
 						startContent={<HeartFilledIcon className="text-danger" />}
 						variant="flat"
 					>
-						Sponsor
+						도움 주신 분
 					</Button>
 				</NavbarItem>
 			</NavbarContent>

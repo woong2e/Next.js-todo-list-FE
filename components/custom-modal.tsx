@@ -1,21 +1,11 @@
 "use client"
 
 import React, { useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
-   Input, Button, Popover, PopoverTrigger, PopoverContent, Spinner, Dropdown,
-   DropdownTrigger,  DropdownMenu, DropdownItem, Modal, ModalContent, ModalHeader,
-    ModalBody, ModalFooter, useDisclosure, Checkbox, Link, Switch} from "@nextui-org/react";
-import { CustomModalType, Todo } from "@/types";
-import { setTodoInput } from "@/store/todoInputSlice";
-import { setIsTyping } from "@/store/buttonClickEnableSlice";
-import { setIsLoading } from "@/store/loadingSlice";
+import { Input, Button, Spinner, ModalHeader,ModalBody, ModalFooter, Switch } from "@nextui-org/react";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { VerticalDotsIcon } from "./icons";
-import { setModalState } from "@/store/modalSlice";
-import { deleteATodo } from "@/data/firestore";
 
 const CustomModal = ( { onClose }: {
     onClose: () => void

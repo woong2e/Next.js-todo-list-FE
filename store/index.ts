@@ -3,7 +3,6 @@ import addEnableReducer  from './buttonClickEnableSlice'
 import todoInputReducer from './todoInputSlice'
 import loadingReducer from './loadingSlice'
 import  setModalReducer  from './modalSlice'
-import  setEditInput  from './editInputSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ export const store = configureStore({
     todoInput: todoInputReducer,
     isLoading: loadingReducer,
     modalState: setModalReducer,
-    editInput: setEditInput,
   }, 
   
 },)
