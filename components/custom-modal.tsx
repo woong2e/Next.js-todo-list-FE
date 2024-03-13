@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { VerticalDotsIcon } from "./icons";
 import { setModalState } from "@/store/modalSlice";
+import { deleteATodo } from "@/data/firestore";
 
 const CustomModal = ( { onClose }: {
     onClose: () => void
@@ -44,16 +45,12 @@ const CustomModal = ( { onClose }: {
     const deleteATodoHandler = async () => {
         setIsLoading(true);
         await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todos/${modalState.focusedTodo?.id}`, {
-          method: "post",
-          body: JSON.stringify({ 
-            title: editedTitle,
-            is_done: isDone,
-          }),
-          cache: "no-store",
-        }); 
+            method: "delete",
+            cache: "no-store",
+          }); 
         setIsLoading(false);
         router.refresh();
-        notifyTodoAddEvent("할일 수정!");
+        notifyTodoAddEvent("할일 삭제!");
     }
 
     const DetailModal = () =>  {
@@ -135,18 +132,22 @@ const CustomModal = ( { onClose }: {
     const DeleteModal = () =>  {
         return (
             <div>
-                <ModalHeader className="flex flex-col gap-1">할일 삭제</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">할일을 삭제하시겠습니까?</ModalHeader>
                 <ModalBody>
-                <p> 
-                    삭제모달
-                </p>
+                   <p><span className="font-bold">id : </span>{modalState.focusedTodo?.id}</p>
+                   <p><span className="font-bold">할일 : </span>{modalState.focusedTodo?.title}</p>
+                   <p><span className="font-bold">완료여부 : </span>{modalState.focusedTodo?.is_done ? '⭕' : '❌'}</p>
+                   <p><span className="font-bold">생성일 : </span>{`${modalState.focusedTodo?.created_at}`}</p>
                 </ModalBody>
                 <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                    닫기
+                <Button color="danger" variant="flat" onPress={async () => {
+                        await deleteATodoHandler();
+                        onClose();
+                        }}>
+                    {isLoading ? <Spinner size="sm" color="default" /> : '삭제'}
                 </Button>
                 <Button color="default" onPress={onClose}>
-                    Action
+                    닫기
                 </Button>
                 </ModalFooter>
             </div>

@@ -151,7 +151,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
           {AddButton()}
       </div>  
       <div className="h-6">
-      {isLoading.isLoaging && <Spinner size="sm" color="default" />}
+      {isLoading.isLoaging && <Spinner size="sm" color="warning" />}
       </div>
       <Table aria-label="Example static collection table">
         <TableHeader>
