@@ -6,8 +6,8 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
    DropdownTrigger,  DropdownMenu, DropdownItem, Modal, ModalContent, ModalHeader,
     ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
 import { CustomModalType, Todo } from "@/types";
-import { setNewTodoInput } from "@/store/newTodoInputSlice";
-import { setIsTyping } from "@/store/addEnableSlice";
+import { setTodoInput } from "@/store/todoInputSlice";
+import { setIsTyping } from "@/store/buttonClickEnableSlice";
 import { setIsLoading } from "@/store/loadingSlice";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
 
   const dispatch = useAppDispatch();    
   const isInputted = useAppSelector((state) => state.isTyping);
-  const inputedTitle = useAppSelector((state) => state.newTodoInput);
+  const inputedTitle = useAppSelector((state) => state.todoInput);
   const isLoading = useAppSelector((state) => state.isLoading);
   const modalState = useAppSelector((state) => state.modalState);
   const router = useRouter();
@@ -37,7 +37,7 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
       }),
       cache: "no-store",
     }); 
-    dispatch(setNewTodoInput('')); 
+    dispatch(setTodoInput('')); 
     dispatch(setIsTyping(false));
     router.refresh();
     dispatch(setIsLoading(false)); 
@@ -145,13 +145,13 @@ export const TodosTable = ( { todos }: { todos: Todo[] }) => {
         <Input type="text" label="새로운 할일" placeholder="무엇을 할 예정인가요" 
           onValueChange={(changedInput) => {
             dispatch(setIsTyping(changedInput.length > 0));
-            dispatch(setNewTodoInput(changedInput)); 
+            dispatch(setTodoInput(changedInput)); 
           }}
           value={inputedTitle.todoInput}/>
           {AddButton()}
       </div>  
       <div className="h-6">
-      {isLoading.isLoaging && <Spinner size="sm" color="warning" />}
+      {isLoading.isLoaging && <Spinner size="sm" color="default" />}
       </div>
       <Table aria-label="Example static collection table">
         <TableHeader>

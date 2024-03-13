@@ -13,11 +13,11 @@ export const todoInputSlice = createSlice({
     name: "todoInput",
     initialState,
     reducers: {
-        setNewTodoInput: (state, action: PayloadAction<string>) => {
+        setTodoInput: (state, action: PayloadAction<string>) => {
             state.todoInput = action.payload;
         },
     },
 }); 
 
-export const { setNewTodoInput } = todoInputSlice.actions; 
+export const { setTodoInput } = todoInputSlice.actions; 
 export default todoInputSlice.reducer;

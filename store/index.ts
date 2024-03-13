@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
-import addEnableReducer  from './addEnableSlice'
-import newTodoInputReducer from './newTodoInputSlice'
+import addEnableReducer  from './buttonClickEnableSlice'
+import todoInputReducer from './todoInputSlice'
 import loadingReducer from './loadingSlice'
-import  setModalState  from './modalSlice'
+import  setModalReducer  from './modalSlice'
+import  setEditInput  from './editInputSlice'
 
 export const store = configureStore({
   reducer: {
     isTyping: addEnableReducer,
-    newTodoInput: newTodoInputReducer,
+    todoInput: todoInputReducer,
     isLoading: loadingReducer,
-    modalState: setModalState,
+    modalState: setModalReducer,
+    editInput: setEditInput,
   }, 
   
 },)

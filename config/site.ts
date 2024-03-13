@@ -52,9 +52,9 @@ export const siteConfig = {
 		},
 	],
 	links: {
-		github: "https://github.com/nextui-org/nextui",
+		github: "https://github.com/woong2e",
 		twitter: "https://twitter.com/getnextui",
-		docs: "https://nextui.org",
+		velog: "https://velog.io/@woong2e/posts",
 		discord: "https://discord.gg/9b6yyZKmH4",
     sponsor: "https://patreon.com/jrgarciadev"
 	},
