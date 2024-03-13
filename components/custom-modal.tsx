@@ -56,18 +56,16 @@ const CustomModal = ( { onClose }: {
     const DetailModal = () =>  {
         return (
             <div>
-                <ModalHeader className="flex flex-col gap-1">Detail</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">할일 상세</ModalHeader>
                 <ModalBody>
-                <p> 
-                    상세모달
-                </p>
+                   <p><span className="font-bold">id : </span>{modalState.focusedTodo?.id}</p>
+                   <p><span className="font-bold">할일 : </span>{modalState.focusedTodo?.title}</p>
+                   <p><span className="font-bold">완료여부 : </span>{modalState.focusedTodo?.is_done ? '⭕' : '❌'}</p>
+                   <p><span className="font-bold">생성일 : </span>{`${modalState.focusedTodo?.created_at}`}</p>
                 </ModalBody>
                 <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="default" onPress={onClose}>
                     닫기
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                    Action
                 </Button>
                 </ModalFooter>
             </div>
