@@ -5,9 +5,12 @@ async function fetchTodosApiCall() {
 	const response = await fetch(`${process.env.BASE_URL}/api/todos`,
 	 { cache: 'no-store' });
 
+	 console.log("response: ", response);
 	const contentTypeHeaderValue = response.headers.get('content-type');
+	console.log("contentTypeHeaderValue: ", contentTypeHeaderValue);
 
 	if (contentTypeHeaderValue?.includes("text/html")) {
+		console.log("contentTypeHeaderValue: ", contentTypeHeaderValue);
 		return null;
     }
 	return response.json();

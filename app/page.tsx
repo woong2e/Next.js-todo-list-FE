@@ -5,9 +5,16 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
+import Head from "next/head";
+import { Fragment } from "react";
 
 export default function Home() {
 	return (
+		<Fragment>
+			<Head>
+				<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+				<meta name="theme-color" content="#abcdef" />
+			</Head>
 		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
 			<div className="inline-block max-w-lg text-center justify-center">
 				<h1 className={title()}>안녕</h1>
@@ -46,5 +53,6 @@ export default function Home() {
 				</Snippet>
 			</div>
 		</section>
+		</Fragment>
 	);
 }
